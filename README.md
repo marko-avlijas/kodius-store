@@ -1,24 +1,54 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Task
 
-Things you may want to cover:
+The goal of the exercise is to create a checkout system that fulfills the criteria listed below :
+1. Items can be added to a basket
+2. Items can be removed from a basket
+3. Promotions can be applied to a basket
+4. Promotions can be removed from a basket
+5. Basket can be checked out - a total price is calculated
+6. Customer’s Email, Address and Credit card details are required to check out
+7. Customers will have an Order after checking out which contains all the basket items
 
-* Ruby version
+### Items :
 
-* System dependencies
+| Name               |  Price (EUR) |
+|--------------------|--------------|
+| Smart Hub          |  49.99       |
+| Motion Sensor      |  24.99       |
+| Wireless Camera    |  99.99       |
+| Smoke Sensor       |  19.99       |
+| Water Leak Sensor  |  14.99       |
 
-* Configuration
+### Promotions:
 
-* Database creation
+#### Codes:
 
-* Database initialization
+| Name     |  Effect               | Note                    |
+|----------|-----------------------|-------------------------|
+| 20%OFF   | 20% off final cost    | cannot be used in conjunction with other codes |
+| 5%OFF    | 5% off final cost     | can be used in conjunction with other codes |
+| 20EUROFF | 20 EUR off final cost | can be used in conjunction with other codes |
 
-* How to run the test suite
+#### Quantity:
 
-* Services (job queues, cache servers, search engines, etc.)
+3 Motion sensors for 65.00 EUR  
+2 Smoke Sensors for 35.00 EUR
 
-* Deployment instructions
+### Deliverables:
+* Create a database that can support the criteria
+* Create pages to accommodate functionality
+* Validation of intended functionality
 
-* ...
+### Notes:
+* Speed of delivery is important
+
+
+## Installation
+
+```
+git clone https://github.com/marko-avlijas/kodius-store.git
+cd kodius-store
+bin/setup
+```
