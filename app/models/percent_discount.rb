@@ -1,0 +1,3 @@
+class PercentDiscount < PromotionCode
+end
+
