@@ -1,0 +1,13 @@
+<h1>Products</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render collection: @products, partial: 'store/product' %>
+  </tbody>
+</table>

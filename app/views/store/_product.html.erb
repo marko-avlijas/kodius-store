@@ -1,0 +1,18 @@
+<tr>
+  <td><%= product.name %></td>
+  <td><%= price_in_euros(product.price) %></td>
+  <td><%= link_to "Add to Basket", "#" %></td>
+</tr>
+<% product.quantity_discounts.each do |discount| %>
+  <tr>
+    <td>
+      <%= product.name %>
+      Discount
+    </td>
+    <td>
+      <%= discount.quantity %> for
+      <%= price_in_euros(discount.price) %>
+    </td>
+    <td><%= link_to "Add to Basket", "#" %></td>
+  </tr>
+<% end %>
