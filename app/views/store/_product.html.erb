@@ -1,18 +1,22 @@
 <tr>
   <td><%= product.name %></td>
   <td><%= price_in_euros(product.price) %></td>
-    <td><%= button_to "Add to Basket", line_items_path(product_id: product.id), method: :post, class: "btn btn-success" %></td>
+  <td>
+    <%= button_to "Add to Basket",
+                  product_line_items_path(product_id: product.id),
+                  method: :post,
+                  class: "btn btn-success btn-sm" %>
+  </td>
 </tr>
-<% product.product_bundles.each do |discount| %>
+<% product.product_bundles.each do |bundle| %>
   <tr>
-    <td>
-      <%= product.name %>
-      Discount
-    </td>
-    <td>
-      <%= discount.quantity %> for
-      <%= price_in_euros(discount.price) %>
-    </td>
-    <td><%= button_to "Add to Basket", "#", method: :post, class: "btn btn-warning" %></td>
+    <td><%= bundle.name %></td>
+    <td><%= price_in_euros(bundle.price) %></td>
+  <td>
+    <%= button_to "Add to Basket",
+                  bundle_line_items_path(product_bundle_id: bundle.id),
+                  method: :post,
+                  class: "btn btn-warning btn-sm" %>
+  </td>
   </tr>
 <% end %>

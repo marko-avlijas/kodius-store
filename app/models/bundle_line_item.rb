@@ -23,10 +23,16 @@
 #  fk_rails_...  (product_bundle_id => product_bundles.id)
 #  fk_rails_...  (product_id => products.id)
 #
-class LineItem < ApplicationRecord
-  belongs_to :basket
+class BundleLineItem < LineItem
+  belongs_to :product_bundle
 
-  def total_price
-    price * quantity
+  delegate :price, to: :product_bundle
+
+  def name
+    base = product_bundle.product.name
+    qty = product_bundle.quantity
+
+    "#{base} #{qty}x Bundle"
   end
 end
+

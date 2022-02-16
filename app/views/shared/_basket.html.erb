@@ -8,15 +8,17 @@
           <th>Name</th>
           <th>Quantity</th>
           <th>Price per unit</th>
+          <th>Total Price</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <% @current_basket.line_items.includes(:product).each do |line_item| %>
+        <% @current_basket.line_items.each do |line_item| %>
           <tr>
-            <td><%= line_item.product.name %></td>
+            <td><%= line_item.name %></td>
             <td><%= line_item.quantity %></td>
-            <td><%= line_item.product.price %></td>
+            <td><%= line_item.price %></td>
+            <td><%= line_item.total_price %></td>
             <td>
               <%= link_to line_item, class: "btn btn-danger btn-sm", data: { turbo_method: :delete } do %>
                 <i class="bi-trash"></i>

@@ -17,13 +17,8 @@
 #
 #  fk_rails_...  (product_id => products.id)
 #
-class ProductBundle < ApplicationRecord
-  belongs_to :product
+motion_sensor_bundle:
+  product: motion_sensor
+  quantity: 3
+  price: 65.00
 
-  validates :quantity, numericality: { only_integer: true, greater_than: 1 }
-  validates :price, numericality: { greater_than_or_equal_to: 0 }
-
-  def name
-    "#{product.name} #{quantity}x Bundle"
-  end
-end

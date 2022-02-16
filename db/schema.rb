@@ -20,12 +20,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_100133) do
   end
 
   create_table "line_items", force: :cascade do |t|
-    t.bigint "product_id", null: false
+    t.bigint "product_id"
+    t.bigint "product_bundle_id"
     t.bigint "basket_id", null: false
     t.integer "quantity", default: 1, null: false
+    t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["basket_id"], name: "index_line_items_on_basket_id"
+    t.index ["product_bundle_id"], name: "index_line_items_on_product_bundle_id"
     t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
@@ -55,6 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_16_100133) do
   end
 
   add_foreign_key "line_items", "baskets"
+  add_foreign_key "line_items", "product_bundles"
   add_foreign_key "line_items", "products"
   add_foreign_key "product_bundles", "products"
 end
