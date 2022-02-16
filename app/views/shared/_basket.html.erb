@@ -6,13 +6,15 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Price</th>
+          <th>Quantity</th>
+          <th>Price per unit</th>
         </tr>
       </thead>
       <tbody>
         <% @current_basket.line_items.includes(:product).each do |line_item| %>
           <tr>
             <td><%= line_item.product.name %></td>
+            <td><%= line_item.quantity %></td>
             <td><%= line_item.product.price %></td>
           </tr>
         <% end %>

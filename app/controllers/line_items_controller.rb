@@ -3,7 +3,7 @@ class LineItemsController < ApplicationController
   before_action :set_product
 
   def create
-    @current_basket.line_items.create(product: @product)
+    line_item = @current_basket.add_product(@product)
     redirect_to root_url, notice: "#{@product.name} added to basket"
   end
 
