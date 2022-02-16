@@ -1,6 +1,6 @@
 class StoreController < ApplicationController
   def index
-    @products = Product.includes(:quantity_discounts).order(:name).all
+    @products = Product.includes(:product_bundles).order(:name).all
 
     layout = basket_present? ? "with_basket" : "application"
     set_current_basket if basket_present?

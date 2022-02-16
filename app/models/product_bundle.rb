@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: quantity_discounts
+# Table name: product_bundles
 #
 #  id         :bigint           not null, primary key
 #  price      :decimal(8, 2)    not null
@@ -11,13 +11,13 @@
 #
 # Indexes
 #
-#  index_quantity_discounts_on_product_id  (product_id)
+#  index_product_bundles_on_product_id  (product_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (product_id => products.id)
 #
-class QuantityDiscount < ApplicationRecord
+class ProductBundle < ApplicationRecord
   belongs_to :product
 
   validates :quantity, numericality: { only_integer: true, greater_than: 1 }
