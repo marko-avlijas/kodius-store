@@ -52,3 +52,9 @@ git clone https://github.com/marko-avlijas/kodius-store.git
 cd kodius-store
 bin/setup
 ```
+
+## Start dev server, css & javascript compilation
+
+```
+bin/dev
+```

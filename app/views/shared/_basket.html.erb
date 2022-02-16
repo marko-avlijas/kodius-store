@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">Your Basket</h4>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @current_basket.line_items.includes(:product).each do |line_item| %>
+          <tr>
+            <td><%= line_item.product.name %></td>
+            <td><%= line_item.product.price %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= link_to "Delete Basket", basket_path, data: { turbo_method: :delete }, class: "btn btn-danger" %>
+  </div>
+</div>

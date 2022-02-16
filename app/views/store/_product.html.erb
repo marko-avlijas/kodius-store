@@ -1,7 +1,7 @@
 <tr>
   <td><%= product.name %></td>
   <td><%= price_in_euros(product.price) %></td>
-  <td><%= link_to "Add to Basket", "#" %></td>
+    <td><%= button_to "Add to Basket", line_items_path(product_id: product.id), method: :post, class: "btn btn-success" %></td>
 </tr>
 <% product.quantity_discounts.each do |discount| %>
   <tr>
@@ -13,6 +13,6 @@
       <%= discount.quantity %> for
       <%= price_in_euros(discount.price) %>
     </td>
-    <td><%= link_to "Add to Basket", "#" %></td>
+    <td><%= button_to "Add to Basket", "#", method: :post, class: "btn btn-warning" %></td>
   </tr>
 <% end %>

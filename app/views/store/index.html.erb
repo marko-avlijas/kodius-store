@@ -1,13 +1,17 @@
-<h1>Products</h1>
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render collection: @products, partial: 'store/product' %>
-  </tbody>
-</table>
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title">Products</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render collection: @products, partial: 'store/product' %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -21,7 +21,15 @@
 
       <h1 class="mb-4">Kodius Store</h1>
 
-      <%= yield %>
+      <div class="row">
+        <div class="col">
+          <%= yield %>
+        </div>
+        <div class="col">
+          <%= render partial: "shared/basket" %>
+        </div>
+      </div>
     </div>
   </body>
 </html>
+
