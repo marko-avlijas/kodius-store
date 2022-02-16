@@ -26,4 +26,8 @@ class Basket < ApplicationRecord
       line_items.create(product_bundle_id: product_bundle.id, type: "BundleLineItem")
     end
   end
+
+  def total_before_promotions
+    line_items.inject(0) { |sum, item| sum + item.total_price }
+  end
 end

@@ -60,4 +60,53 @@ RSpec.describe Basket, type: :model do
       end
     end
   end
+
+  describe "#total_before_promotions" do
+    let(:product1) { products(:smart_hub) }                   # price: 49.99
+    let(:product2) { products(:motion_sensor) }               # price: 24.99
+    let(:bundle1)  { product_bundles(:motion_sensor_bundle) } # price: 65.00
+    let(:bundle2)  { product_bundles(:smoke_sensor_bundle) }  # price: 35.00
+
+    it "returns 0 given no line items" do
+      expect(subject.total_before_promotions).to eq(0)
+    end
+
+    it "correctly sums 1 product line item with quantity 1" do
+      subject.line_items.create(product_id: product1.id, quantity: 1, type: "ProductLineItem")
+      expect(subject.total_before_promotions).to eq(49.99)
+    end
+
+    it "correctly sums 1 product line item with quantity 2" do
+      subject.line_items.create(product_id: product1.id, quantity: 2, type: "ProductLineItem")
+      expect(subject.total_before_promotions).to eq(99.98)
+    end
+
+    it "correctly sums 2 product line items" do
+      subject.line_items.create(product_id: product1.id, quantity: 2, type: "ProductLineItem")
+      subject.line_items.create(product_id: product2.id, quantity: 1, type: "ProductLineItem")
+      expect(subject.total_before_promotions).to eq(99.98 + 24.99)
+    end
+
+    it "correctly sums 1 bundle line item with quantity 1" do
+      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 1, type: "BundleLineItem")
+      expect(subject.total_before_promotions).to eq(65.00)
+    end
+
+    it "correctly sums 1 bundle line item with quantity 2" do
+      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 2, type: "BundleLineItem")
+      expect(subject.total_before_promotions).to eq(130.00)
+    end
+
+    it "correctly sums 2 bundle line items" do
+      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 2, type: "BundleLineItem")
+      subject.line_items.create(product_bundle_id: bundle2.id, quantity: 1, type: "BundleLineItem")
+      expect(subject.total_before_promotions).to eq(130.00 + 35.00)
+    end
+
+    it "correctly sums up 1 product line item and 1 bundle line item" do
+      subject.line_items.create(product_id: product1.id, quantity: 2, type: "ProductLineItem")
+      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 2, type: "BundleLineItem")
+      expect(subject.total_before_promotions).to eq(99.98 + 130.00)
+    end
+  end
 end

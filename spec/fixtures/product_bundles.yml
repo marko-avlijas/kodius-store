@@ -21,4 +21,7 @@ motion_sensor_bundle:
   product: motion_sensor
   quantity: 3
   price: 65.00
-
+smoke_sensor_bundle:
+  product: smoke_sensor
+  quantity: 2
+  price: 35.00
