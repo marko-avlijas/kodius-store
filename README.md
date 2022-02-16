@@ -58,3 +58,9 @@ bin/setup
 ```
 bin/dev
 ```
+
+## Run tests
+
+```
+rspec
+```

@@ -1,0 +1,6 @@
+smart_hub:
+  name: Smart Hub
+  price: 49.99
+motion_sensor:
+  name: Motion Sensor
+  price: 24.99
