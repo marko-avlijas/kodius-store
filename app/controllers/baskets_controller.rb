@@ -2,8 +2,7 @@ class BasketsController < ApplicationController
   before_action :set_current_basket
 
   def destroy
-    @current_basket.destroy
-    session[:basket_id] = nil
+    delete_current_basket
 
     redirect_to root_url, notice: "Your basket has been deleted"
   end

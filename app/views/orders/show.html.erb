@@ -1,0 +1,58 @@
+<h2>Order for <%= @order.user.email %></h2>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Order</h4>
+      <%= render partial: 'shared/line_items', locals: { subject: @order, delete_links: false } %>
+
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Address</h4>
+
+    <table class="table table-borderless">
+      <tr>
+        <th>Country</th>
+        <td><%= @order.user.address.country %></td>
+      <tr>
+      <tr>
+        <th>City</th>
+        <td><%= @order.user.address.city %></td>
+      <tr>
+      <tr>
+        <th>Line 1</th>
+        <td><%= @order.user.address.line1 %></td>
+      <tr>
+      <tr>
+        <th>Line 2</th>
+        <td><%= @order.user.address.line2 %></td>
+      <tr>
+    </table>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h4 class="card-title">Credit Card</h4>
+
+    <table class="table table-borderless">
+      <tr>
+        <th>Number</th>
+        <td><%= @order.user.credit_card.number %></td>
+      <tr>
+      <tr>
+        <th>Expiry Date</th>
+        <td><%= @order.user.credit_card.expiry_date %></td>
+      <tr>
+      <tr>
+        <th>CVV2</th>
+        <td><%= @order.user.credit_card.cvv2 %></td>
+      <tr>
+    </table>
+  </div>
+</div>
+
+<%= link_to "Back to Store", root_path, class: "btn btn-primary mb-4" %>
+

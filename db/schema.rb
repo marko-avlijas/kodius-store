@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_17_063824) do
+ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string "country", null: false
+    t.string "city", null: false
+    t.string "line1", null: false
+    t.string "line2"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
 
   create_table "baskets", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -25,17 +36,42 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_063824) do
     t.index ["promotion_code_id", "basket_id"], name: "index_baskets_promotion_codes_on_both_keys", unique: true
   end
 
+  create_table "credit_cards", force: :cascade do |t|
+    t.string "number", null: false
+    t.date "expiry_date", null: false
+    t.integer "cvv2", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_credit_cards_on_user_id"
+  end
+
   create_table "line_items", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "product_bundle_id"
-    t.bigint "basket_id", null: false
     t.integer "quantity", default: 1, null: false
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "basket_id"
+    t.bigint "order_id"
     t.index ["basket_id"], name: "index_line_items_on_basket_id"
+    t.index ["order_id"], name: "index_line_items_on_order_id"
     t.index ["product_bundle_id"], name: "index_line_items_on_product_bundle_id"
     t.index ["product_id"], name: "index_line_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "orders_promotion_codes", id: false, force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "promotion_code_id", null: false
+    t.index ["promotion_code_id", "order_id"], name: "index_orders_promotion_codes_on_promotion_code_id_and_order_id", unique: true
   end
 
   create_table "product_bundles", force: :cascade do |t|
@@ -63,8 +99,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_063824) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "addresses", "users"
+  add_foreign_key "credit_cards", "users"
   add_foreign_key "line_items", "baskets"
+  add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "product_bundles"
   add_foreign_key "line_items", "products"
+  add_foreign_key "orders", "users"
   add_foreign_key "product_bundles", "products"
 end

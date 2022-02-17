@@ -40,6 +40,7 @@ The goal of the exercise is to create a checkout system that fulfills the criter
 * Create a database that can support the criteria
 * Create pages to accommodate functionality
 * Validation of intended functionality
+* Design is a plus
 
 ### Notes:
 * Speed of delivery is important

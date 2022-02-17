@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
     session[:basket_id] = @current_basket.id
   end
 
+  def delete_current_basket
+    @current_basket.destroy
+    session[:basket_id] = nil
+  end
+
   def basket_present?
     session[:basket_id].present?
   end

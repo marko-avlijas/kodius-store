@@ -1,0 +1,100 @@
+<%= form_with(model: user, url: orders_path, method: :post) do |form| %>
+  <% if user.errors.any? %>
+    <div style="color: red" class="mb-3">
+      <h5>Please correct errors bellow</h5>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend>Info</legend>
+    <div class="mb-3 row">
+      <%= form.label :email, class: 'col-sm-2 col-form-label' %>
+      <div class="col-sm-10">
+        <%= form.text_field :email, class: 'form-control' %>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Address</legend>
+    <%= form.fields_for(:address) do |address_form| %>
+
+      <div class="mb-3 row">
+        <%= address_form.label :country, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= address_form.text_field :country, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= address_form.label :city, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= address_form.text_field :city, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= address_form.label :line1, "Line 1", class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= address_form.text_field :line1, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= address_form.label :line2, "Line 2", class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= address_form.text_field :line2, class: 'form-control' %>
+        </div>
+      </div>
+
+    <% end %>
+  </fieldset>
+
+  <fieldset>
+    <legend>Credit Card</legend>
+    <%= form.fields_for(:credit_card) do |credit_card_form| %>
+
+      <div class="row">
+        <%= credit_card_form.label :number, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= credit_card_form.text_field :number, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="mb-3 row justify-content-end">
+        <div class="col-sm-10">
+          <div class="form-text">
+            Must be in format 1234 5678
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <%= credit_card_form.label :expiry_date, class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= credit_card_form.date_select :expiry_date, 
+                                           { start_year: Date.today.year, end_year: Date.today.year + 7 },
+                                           class: 'form-select date' %>
+        </div>
+      </div>
+
+      <div class="row">
+        <%= credit_card_form.label :cvv2, "CVV2", class: 'col-sm-2 col-form-label' %>
+        <div class="col-sm-10">
+          <%= credit_card_form.text_field :cvv2, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="mb-3 row justify-content-end">
+        <div class="col-sm-10">
+          <div class="form-text">
+            Must be a 3-digit number
+          </div>
+        </div>
+      </div>
+
+    <% end %>
+  </fieldset>
+
+  <div class="mb-3">
+    <%= form.submit "Create Order", class: "btn btn-warning" %>
+  </div>
+<% end %>

@@ -2,66 +2,7 @@
   <div class="card-body">
     <h4 class="card-title">Your Basket</h4>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Price per unit</th>
-          <th>Total Price</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @current_basket.line_items.each do |line_item| %>
-          <tr>
-            <td><%= line_item.name %></td>
-            <td><%= line_item.quantity %></td>
-            <td><%= line_item.price %></td>
-            <td><%= line_item.total_price %></td>
-            <td>
-              <%= link_to line_item, class: "btn btn-danger btn-sm", data: { turbo_method: :delete } do %>
-                <i class="bi-trash"></i>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-        <tr>
-          <th colspan="3">Total Before Promotions</th>
-          <td colspan="2">
-            <%= @current_basket.total_before_promotions %>
-          </td>
-        </tr>
-
-        <% if @current_basket.promotion_codes.any? %>
-          <tr>
-            <th colspan="5">Promotions</th>
-          </tr>
-        <% end %>
-        <% @current_basket.promotion_codes.each do |promo_code| %>
-          <tr>
-            <td colspan="3">
-              <%= promo_code.name %>
-              <%= tag.span "exclusive", class: 'badge bg-info' unless promo_code.can_combine? %>
-            </th>
-            <td>
-              <%= promo_code.apply_to(@current_basket.total_before_promotions) %>
-            </td>
-            <td>
-              <%= link_to promotion_path(promo_code), class: "btn btn-danger btn-sm", data: { turbo_method: :delete } do %>
-                <i class="bi-trash"></i>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-        <tr>
-          <th colspan="3">Total</th>
-          <td colspan="2">
-            <%= @current_basket.total %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <%= render partial: 'shared/line_items', locals: { subject: basket, delete_links: true } %>
 
     <%= form_with(url: promotions_path, method: :post, class: "mb-3") do |f| %>
       <%= f.label :code, "Promo Code" %>
@@ -69,6 +10,7 @@
       <%= f.submit "Apply", class: "btn btn-info btn-sm" %>
     <% end %>
 
+    <%= link_to "Checkout", new_order_path, class: "btn btn-warning" %>
     <%= link_to "Delete Basket", basket_path, data: { turbo_method: :delete }, class: "btn btn-danger" %>
   </div>
 </div>

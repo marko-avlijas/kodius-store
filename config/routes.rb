@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :orders
   root "store#index"
   get 'store/index'
 
