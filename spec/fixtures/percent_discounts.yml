@@ -1,0 +1,12 @@
+discount_20_percent_off:
+  amount: 20.00
+  can_combine: false
+  code: 20%OFF
+  type: PercentDiscount
+
+discount_5_percent_off:
+  amount: 5.00
+  can_combine: true
+  code: 5%OFF
+  type: PercentDiscount
+

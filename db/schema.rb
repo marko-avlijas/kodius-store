@@ -10,13 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_16_100133) do
+ActiveRecord::Schema[7.0].define(version: 2022_02_17_063824) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "baskets", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "baskets_promotion_codes", id: false, force: :cascade do |t|
+    t.bigint "basket_id", null: false
+    t.bigint "promotion_code_id", null: false
+    t.index ["promotion_code_id", "basket_id"], name: "index_baskets_promotion_codes_on_both_keys", unique: true
   end
 
   create_table "line_items", force: :cascade do |t|

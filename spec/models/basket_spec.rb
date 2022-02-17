@@ -109,4 +109,27 @@ RSpec.describe Basket, type: :model do
       expect(subject.total_before_promotions).to eq(99.98 + 130.00)
     end
   end
+
+  describe "#total" do
+    let(:bundle)  { product_bundles(:motion_sensor_bundle) } # price: 65.00
+    before do
+      subject.line_items.create(product_bundle_id: bundle.id, quantity: 1, type: "BundleLineItem")
+    end
+
+    it "without promo codes returns total_before_promotions" do
+      expect(subject.total_before_promotions).to eq(65.00)
+      expect(subject.total).to eq(65.00)
+    end
+
+    it "correctly applies one promo code" do
+      subject.promotion_codes << percent_discounts(:discount_20_percent_off)
+      expect(subject.total).to eq(65.00 * 0.8)
+    end
+
+    it "correctly applies multiple promo codes" do
+      subject.promotion_codes << percent_discounts(:discount_5_percent_off)
+      subject.promotion_codes << amount_discounts(:discount_20_euro_off)
+      expect(subject.total).to eq(65.00 - (65.00 * 0.05) - 20)
+    end
+  end
 end

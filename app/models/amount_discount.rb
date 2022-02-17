@@ -11,5 +11,12 @@
 #  updated_at  :datetime         not null
 #
 class AmountDiscount < PromotionCode
+  def name
+    "#{amount} € off"
+  end
+
+  def apply_to(total)
+    - amount
+  end
 end
 

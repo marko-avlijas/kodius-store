@@ -1,0 +1,6 @@
+discount_20_euro_off:
+  amount: 20.00
+  can_combine: true
+  code: 20EUROFF
+  type: AmountDiscount
+

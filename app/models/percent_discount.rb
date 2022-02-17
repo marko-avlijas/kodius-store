@@ -11,5 +11,12 @@
 #  updated_at  :datetime         not null
 #
 class PercentDiscount < PromotionCode
+  def name
+    "#{amount}% off"
+  end
+
+  def apply_to(total)
+    - total * (amount / 100.0)
+  end
 end
 
