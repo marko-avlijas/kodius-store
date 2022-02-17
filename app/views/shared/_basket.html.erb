@@ -44,8 +44,13 @@
               <%= promo_code.name %>
               <%= tag.span "exclusive", class: 'badge bg-info' unless promo_code.can_combine? %>
             </th>
-            <td colspan="2">
+            <td>
               <%= promo_code.apply_to(@current_basket.total_before_promotions) %>
+            </td>
+            <td>
+              <%= link_to promotion_path(promo_code), class: "btn btn-danger btn-sm", data: { turbo_method: :delete } do %>
+                <i class="bi-trash"></i>
+              <% end %>
             </td>
           </tr>
         <% end %>

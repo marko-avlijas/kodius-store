@@ -9,4 +9,10 @@ class PromotionsController < ApplicationController
     else
     end
   end
+
+  def destroy
+    code = @current_basket.promotion_codes.find(params[:id])
+    @current_basket.promotion_codes.destroy(code)
+    redirect_to root_url, notice: "Code sucessfully deleted"
+  end
 end
