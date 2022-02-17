@@ -51,6 +51,7 @@ The goal of the exercise is to create a checkout system that fulfills the criter
 ```
 git clone https://github.com/marko-avlijas/kodius-store.git
 cd kodius-store
+yarn install
 bin/setup
 ```
 
