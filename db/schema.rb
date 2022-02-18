@@ -49,7 +49,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
   create_table "line_items", force: :cascade do |t|
     t.bigint "product_id"
     t.integer "quantity", default: 1, null: false
-    t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "basket_id"

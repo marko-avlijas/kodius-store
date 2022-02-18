@@ -4,7 +4,6 @@
 #
 #  id         :bigint           not null, primary key
 #  quantity   :integer          default(1), not null
-#  type       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  basket_id  :bigint

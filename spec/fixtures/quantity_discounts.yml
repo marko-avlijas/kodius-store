@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: product_bundles
+# Table name: quantity_discounts
 #
 #  id         :bigint           not null, primary key
 #  price      :decimal(8, 2)    not null
@@ -11,7 +11,7 @@
 #
 # Indexes
 #
-#  index_product_bundles_on_product_id  (product_id)
+#  index_quantity_discounts_on_product_id  (product_id)
 #
 # Foreign Keys
 #
