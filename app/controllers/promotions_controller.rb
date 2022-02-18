@@ -7,7 +7,7 @@ class PromotionsController < ApplicationController
     if form.save
       redirect_to root_url, notice: "Code sucessfully applied"
     else
-      errors = form.errors.full_messages.join("\n\n")
+      errors = form.errors.full_messages.to_sentence
       redirect_to root_url, alert: errors
     end
   end

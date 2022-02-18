@@ -22,14 +22,33 @@ RSpec.describe PromotionsForm, type: :model do
         expect(subject.errors.added?(:code, :inclusion, value: "No such code")).to be true
       end
 
-      it "adding code which can't be combined to other codes is invalid" do
+      # this spec catches a bug which was present
+      it "given not existing code with a code already applied" do
+        basket.promotion_codes << discount_5_percent_off
+
+        subject.code = "No such code"
+        expect(subject.valid?).to be false
+        expect(subject.errors.added?(:code, :inclusion, value: "No such code")).to be true
+        expect(subject.errors.count).to eq(1)
+      end
+
+      it "given already applied code" do
+        basket.promotion_codes << discount_5_percent_off
+
+        subject.code = discount_5_percent_off.code
+        expect(subject.valid?).to be false
+        expect(subject.errors.added?(:code, :taken)).to be true
+        expect(subject.errors.count).to eq(1)
+      end
+
+      it "given code which can't be combined to other codes" do
         basket.promotion_codes << discount_5_percent_off
         subject.code = discount_20_percent_off.code
         expect(subject.valid?).to be false
         expect(subject.errors.added?(:base, :invalid)).to be true
       end
 
-      it "adding code which can be combined when code that can't be combined is applied is invalid" do
+      it "given code which can be combined when code that can't be combined is applied" do
         basket.promotion_codes << discount_20_percent_off
         subject.code = discount_5_percent_off.code
         expect(subject.valid?).to be false
