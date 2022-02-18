@@ -43,7 +43,7 @@
           <%= tag.span "exclusive", class: 'badge bg-info' unless promo_code.can_combine? %>
           </th>
           <td>
-            <%= promo_code.apply_to(subject.total_before_promotions) %>
+            <%= promo_code.apply_to(subject.total_before_promotions).round(2) %>
           </td>
           <td>
             <% if delete_links %>
