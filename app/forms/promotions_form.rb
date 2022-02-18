@@ -31,7 +31,7 @@ class PromotionsForm
     def code_is_not_already_applied
       return unless valid_code? && basket.promotion_code_ids.include?(promotion_code.id)
 
-      errors.add(:code, :taken)
+      errors.add(:code, :taken, message: "has already been applied")
     end
 
     def valid_code?

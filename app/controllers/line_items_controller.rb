@@ -1,4 +1,4 @@
-class ProductLineItemsController < ApplicationController
+class LineItemsController < ApplicationController
   before_action :set_current_basket
   before_action :set_product, only: [:create]
 

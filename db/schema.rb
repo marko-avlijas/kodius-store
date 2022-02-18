@@ -48,7 +48,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
 
   create_table "line_items", force: :cascade do |t|
     t.bigint "product_id"
-    t.bigint "product_bundle_id"
     t.integer "quantity", default: 1, null: false
     t.string "type"
     t.datetime "created_at", null: false
@@ -57,7 +56,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
     t.bigint "order_id"
     t.index ["basket_id"], name: "index_line_items_on_basket_id"
     t.index ["order_id"], name: "index_line_items_on_order_id"
-    t.index ["product_bundle_id"], name: "index_line_items_on_product_bundle_id"
     t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
@@ -72,15 +70,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
     t.bigint "order_id", null: false
     t.bigint "promotion_code_id", null: false
     t.index ["promotion_code_id", "order_id"], name: "index_orders_promotion_codes_on_promotion_code_id_and_order_id", unique: true
-  end
-
-  create_table "product_bundles", force: :cascade do |t|
-    t.bigint "product_id", null: false
-    t.integer "quantity", null: false
-    t.decimal "price", precision: 8, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_product_bundles_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -99,6 +88,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "quantity_discounts", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_quantity_discounts_on_product_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.datetime "created_at", null: false
@@ -109,8 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_17_122023) do
   add_foreign_key "credit_cards", "users"
   add_foreign_key "line_items", "baskets"
   add_foreign_key "line_items", "orders"
-  add_foreign_key "line_items", "product_bundles"
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "users"
-  add_foreign_key "product_bundles", "products"
+  add_foreign_key "quantity_discounts", "products"
 end

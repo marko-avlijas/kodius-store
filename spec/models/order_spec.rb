@@ -25,11 +25,11 @@ RSpec.describe Order, type: :model do
     let(:user) { User.create!(email: "test@examle.com") }
     subject { Order.create!(user: user) }
 
-    let(:product) { products(:smart_hub) }
-    let(:bundle)  { product_bundles(:motion_sensor_bundle) }
+    let(:product1) { products(:smart_hub) }
+    let(:product2)  { products(:motion_sensor) }
 
-    let(:line_item1) { ProductLineItem.create!(product: product, quantity: 2, basket: basket) }
-    let(:line_item2) { BundleLineItem.create!(product_bundle: bundle, quantity: 1, basket: basket) }
+    let(:line_item1) { LineItem.create!(product: product1, quantity: 2, basket: basket) }
+    let(:line_item2) { LineItem.create!(product: product2, quantity: 1, basket: basket) }
 
     let(:promo_code1) { percent_discounts(:discount_5_percent_off) }
     let(:promo_code2) { amount_discounts(:discount_20_euro_off) }
@@ -43,9 +43,9 @@ RSpec.describe Order, type: :model do
       end.not_to change { LineItem.count }
 
       line_item1.reload
-      expect(line_item1).to have_attributes(basket_id: nil, order_id: subject.id, product_id: product.id, quantity: 2)
+      expect(line_item1).to have_attributes(basket_id: nil, order_id: subject.id, product_id: product1.id, quantity: 2)
       line_item2.reload
-      expect(line_item2).to have_attributes(basket_id: nil, order_id: subject.id, product_bundle_id: bundle.id, quantity: 1)
+      expect(line_item2).to have_attributes(basket_id: nil, order_id: subject.id, product_id: product2.id, quantity: 1)
     end
 
     it "transfers promotion codes correctly" do

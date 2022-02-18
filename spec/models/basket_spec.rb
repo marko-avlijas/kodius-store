@@ -21,42 +21,18 @@ RSpec.describe Basket, type: :model do
         expect { subject.add_product(product) }.to change { LineItem.count }.by(1)
         
         line_item = LineItem.last
-        expect(line_item).to have_attributes(product_id: product.id, basket_id: subject.id, quantity: 1, type: "ProductLineItem")
+        expect(line_item).to have_attributes(product_id: product.id, basket_id: subject.id, quantity: 1)
       end
     end
 
     context "when line item with such product does exist" do
       it "increments quantity by 1" do
-        subject.line_items.create(product_id: product.id, quantity: 1, type: "ProductLineItem")
+        subject.line_items.create(product_id: product.id, quantity: 1)
 
         expect { subject.add_product(product) }.not_to change { LineItem.count }
         
         line_item = LineItem.last
-        expect(line_item).to have_attributes(product_id: product.id, basket_id: subject.id, quantity: 2, type: "ProductLineItem")
-      end
-    end
-  end
-
-  describe "#add_product_bundle" do
-    let(:bundle) { product_bundles(:motion_sensor_bundle) }
-
-    context "when line item with such product bundle does not exist" do
-      it "creates new line item" do
-        expect { subject.add_product_bundle(bundle) }.to change { LineItem.count }.by(1)
-        
-        line_item = LineItem.last
-        expect(line_item).to have_attributes(product_bundle_id: bundle.id, basket_id: subject.id, quantity: 1, type: "BundleLineItem")
-      end
-    end
-
-    context "when line item with such product bundle does exist" do
-      it "increments quantity by 1" do
-        subject.line_items.create(product_bundle_id: bundle.id, quantity: 1, type: "BundleLineItem")
-
-        expect { subject.add_product_bundle(bundle) }.not_to change { LineItem.count }
-        
-        line_item = LineItem.last
-        expect(line_item).to have_attributes(product_bundle_id: bundle.id, basket_id: subject.id, quantity: 2, type: "BundleLineItem")
+        expect(line_item).to have_attributes(product_id: product.id, basket_id: subject.id, quantity: 2)
       end
     end
   end
@@ -64,7 +40,7 @@ RSpec.describe Basket, type: :model do
   describe "#total_before_promotions" do
     let(:product1) { products(:smart_hub) }                   # price: 49.99
     let(:product2) { products(:motion_sensor) }               # price: 24.99
-    let(:bundle1)  { product_bundles(:motion_sensor_bundle) } # price: 65.00
+    let(:discount1)  { product_bundles(:motion_sensor_bundle) } # price: 65.00
     let(:bundle2)  { product_bundles(:smoke_sensor_bundle) }  # price: 35.00
 
     it "returns 0 given no line items" do
@@ -72,64 +48,43 @@ RSpec.describe Basket, type: :model do
     end
 
     it "correctly sums 1 product line item with quantity 1" do
-      subject.line_items.create(product_id: product1.id, quantity: 1, type: "ProductLineItem")
+      subject.line_items.create(product_id: product1.id, quantity: 1)
       expect(subject.total_before_promotions).to eq(49.99)
     end
 
     it "correctly sums 1 product line item with quantity 2" do
-      subject.line_items.create(product_id: product1.id, quantity: 2, type: "ProductLineItem")
+      subject.line_items.create(product_id: product1.id, quantity: 2)
       expect(subject.total_before_promotions).to eq(99.98)
     end
 
-    it "correctly sums 2 product line items" do
-      subject.line_items.create(product_id: product1.id, quantity: 2, type: "ProductLineItem")
-      subject.line_items.create(product_id: product2.id, quantity: 1, type: "ProductLineItem")
+    it "correctly sums 2 line items" do
+      subject.line_items.create(product_id: product1.id, quantity: 2)
+      subject.line_items.create(product_id: product2.id, quantity: 1)
       expect(subject.total_before_promotions).to eq(99.98 + 24.99)
-    end
-
-    it "correctly sums 1 bundle line item with quantity 1" do
-      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 1, type: "BundleLineItem")
-      expect(subject.total_before_promotions).to eq(65.00)
-    end
-
-    it "correctly sums 1 bundle line item with quantity 2" do
-      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 2, type: "BundleLineItem")
-      expect(subject.total_before_promotions).to eq(130.00)
-    end
-
-    it "correctly sums 2 bundle line items" do
-      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 2, type: "BundleLineItem")
-      subject.line_items.create(product_bundle_id: bundle2.id, quantity: 1, type: "BundleLineItem")
-      expect(subject.total_before_promotions).to eq(130.00 + 35.00)
-    end
-
-    it "correctly sums up 1 product line item and 1 bundle line item" do
-      subject.line_items.create(product_id: product1.id, quantity: 2, type: "ProductLineItem")
-      subject.line_items.create(product_bundle_id: bundle1.id, quantity: 2, type: "BundleLineItem")
-      expect(subject.total_before_promotions).to eq(99.98 + 130.00)
     end
   end
 
   describe "#total" do
-    let(:bundle)  { product_bundles(:motion_sensor_bundle) } # price: 65.00
+    let(:product)  { products(:motion_sensor) } # price: 24.99
+    let(:price) { BigDecimal("24.99") }
     before do
-      subject.line_items.create(product_bundle_id: bundle.id, quantity: 1, type: "BundleLineItem")
+      subject.line_items.create(product_id: product.id, quantity: 1)
     end
 
     it "without promo codes returns total_before_promotions" do
-      expect(subject.total_before_promotions).to eq(65.00)
-      expect(subject.total).to eq(65.00)
+      expect(subject.total_before_promotions).to eq(price)
+      expect(subject.total).to eq(price)
     end
 
     it "correctly applies one promo code" do
       subject.promotion_codes << percent_discounts(:discount_20_percent_off)
-      expect(subject.total).to eq(65.00 * 0.8)
+      expect(subject.total).to eq((price * 0.8).round(2))
     end
 
     it "correctly applies multiple promo codes" do
       subject.promotion_codes << percent_discounts(:discount_5_percent_off)
       subject.promotion_codes << amount_discounts(:discount_20_euro_off)
-      expect(subject.total).to eq(65.00 - (65.00 * 0.05) - 20)
+      expect(subject.total).to eq((price - (price * 0.05) - 20).round(2))
     end
   end
 end
